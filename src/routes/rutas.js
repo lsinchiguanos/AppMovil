@@ -1,8 +1,10 @@
 const { Router } = require('express');
-const ruta = Router;
-const { getCliente } = require('../controller/controlador')
+const router = Router();
+const { getCliente, newCliente } = require('../controller/controlador')
 
 // Ruta de prueba
-ruta.get('/clientes', getCliente);
+router.get('/clientes', getCliente);
 
-module.exports = ruta;
+router.post('/clientes', newCliente);
+
+module.exports = router;
