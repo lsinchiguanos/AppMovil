@@ -136,6 +136,97 @@ const getProducto = async (req, res) => {
     res.json(response.rows);
 }
 
+// Encabezado
+// GET
+const ultimoEncabezado = async (req, res) => {
+    const id = req.params.id;
+    const response = await pool.query('SELECT SP_ultVentaEncabezado($1)', [id]);
+    console.log(response.rows[0].sp_ultventaencabezado);
+    res.status(200).json({ message: response.rows[0].sp_ultventaencabezado });
+}
+
+//post
+const newEncabezado = async (req, res) => {
+    const { anio, mes, dia, secuencial, persona } = req.body;
+    const response = await pool.query('SELECT SP_newVentaEncabezado($1, $2, $3, $4, $5)', [anio, mes, dia, secuencial, persona]);
+    console.log(response.rows[0].sp_newventaencabezado);
+    res.status(200).json({ message: response.rows[0].sp_newventaencabezado });
+}
+
+//PUT
+const deleteEncabezado = async (req, res) => {
+    const id = req.params.id;
+    const response = await pool.query('SELECT SP_deleteVentaEncabezado($1)', [id]);
+    console.log(response.rows[0].sp_deleteventaencabezado);
+    res.status(200).json({ message: response.rows[0].sp_deleteventaencabezado });
+}
+
+//PUT
+const pagarEncabezado = async (req, res) => {
+    const id = req.params.id;
+    const response = await pool.query('SELECT SP_pagarVentaEncabezado($1)', [id]);
+    console.log(response.rows[0].sp_pagarventaencabezado);
+    res.status(200).json({ message: response.rows[0].sp_pagarventaencabezado });
+}
+
+//GET;ID
+const buscarEncabezado = async (req, res) => {
+    const id = req.params.id;
+    const { estado } = req.body;
+    const response = await pool.query('SELECT * FROM SP_seaVentaEncabezado($1, $2);', [estado, id]);
+    res.json(response.rows);
+}
+
+//GET
+const getEncabezados = async (req, res) => {
+    const response = await pool.query('SELECT * FROM SP_allVentaEncabezado();');
+    res.json(response.rows);
+}
+
+/* DETALLE */
+//POST
+const registradetalle = async (req, res) => {
+    const { encabezado, producto, precio, cantidad, descuento } = req.body;
+    const response = await pool.query('SELECT SP_newVentaDetalle($1, $2, $3, $4, $5)', [encabezado, producto, precio, cantidad, descuento]);
+    console.log(response.rows[0].sp_newventadetalle);
+    res.status(200).json({ message: response.rows[0].sp_newventadetalle });
+}
+
+//PUT
+const actualizaDetalle = async (req, res) => {
+    const id = req.params.id;
+    const { producto, precio, cantidad, descuento } = req.body;
+    const response = await pool.query('SELECT SP_actualizarVentaDetalle($1, $2, $3, $4, $5, $6, $7, $8)', [id, producto, precio, cantidad, descuento]);
+    console.log(response.rows[0].sp_actualizarventadetalle);
+    res.status(200).json({ message: response.rows[0].sp_actualizarventadetalle });
+}
+
+//PUT
+const pagarDetalle = async (req, res) => {
+    const id = req.params.id;
+    const response = await pool.query('SELECT SP_pagarVentaDetalle($1)', [id]);
+    console.log(response.rows[0].sp_pagarventadetalle);
+    res.status(200).json({ message: response.rows[0].sp_pagarventadetalle });
+}
+
+// DELETE
+const eliminarDetalle = async (req, res) => {
+    const id = req.params.id;
+    const { producto } = req.body;
+    const response = await pool.query('SELECT SP_deleteVentaDetalle($1, $2)', [id, producto]);
+    console.log(response.rows[0].sp_deleteventadetalle);
+    res.status(200).json({ message: response.rows[0].sp_deleteventadetalle });
+}
+
+//PUT
+const gggDetalle = async (req, res) => {
+    const id = req.params.id;
+    const { producto, estado } = req.body;
+    const response = await pool.query('SELECT SP_estadosVentaDetalle($1, $2, $3)', [id, producto, estado]);
+    console.log(response.rows[0].sp_estadosventadetalle);
+    res.status(200).json({ message: response.rows[0].sp_estadosventadetalle });
+}
+
 module.exports = {
     newUsuario,
     udpUsuario,
@@ -156,5 +247,16 @@ module.exports = {
     udpProducto,
     delProducto,
     seaProducto,
-    getProducto
+    getProducto,
+    ultimoEncabezado,
+    newEncabezado,
+    deleteEncabezado,
+    pagarEncabezado,
+    buscarEncabezado,
+    getEncabezados,
+    registradetalle,
+    actualizaDetalle,
+    pagarDetalle,
+    eliminarDetalle,
+    gggDetalle
 }
