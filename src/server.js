@@ -6,6 +6,8 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use(require('./routes/rutas'));
 
+app.set('port', process.env.PORT || 3000);
+
 // iniciamos nuestro servidor
-app.listen(4000);
+app.listen();
 console.log('API escuchando en el puerto');
